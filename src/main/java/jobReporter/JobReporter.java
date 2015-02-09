@@ -1,5 +1,5 @@
 package jobReporter;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.client.AsyncRestTemplate;
 
 import utils.SimpleLogger;
 import Job.WebCrawlingJob;
@@ -46,7 +46,17 @@ public class JobReporter {
 		SimpleLogger.info("[Reporter] Reporting to MASTER about job: URL=" 
 				+ ((WebCrawlingJob)job).getUrl() + ", depth=" 
 				+ ((WebCrawlingJob)job).getDepth());
-		RestTemplate rest = new RestTemplate();
+		
+//		RestTemplate rest = new RestTemplate();
+//		String result = rest.postForObject(JobReporterHelper.constructRequestUrl()
+//				, JobReporterHelper.constructRequestJson(job), String.class);
+//		SimpleLogger.info("[Reporter] Report finished to MASTER about job: URL=" 
+//				+ ((WebCrawlingJob)job).getUrl() + ", depth=" 
+//				+ ((WebCrawlingJob)job).getDepth());
+		
+		
+		
+		AsyncRestTemplate rest = new AsyncRestTemplate();
 		String result = rest.postForObject(JobReporterHelper.constructRequestUrl()
 				, JobReporterHelper.constructRequestJson(job), String.class);
 		SimpleLogger.info("[Reporter] Report finished to MASTER about job: URL=" 
