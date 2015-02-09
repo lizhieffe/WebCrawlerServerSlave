@@ -3,6 +3,7 @@ package jobExecutor;
 import java.net.URL;
 import java.util.List;
 
+import utils.SimpleLogger;
 import jobManager.JobManager;
 import Job.WebCrawlingJob;
 import Job.WebCrawlingJobFactory;
@@ -27,9 +28,9 @@ public class JobExecutor {
 		Runnable runnable = new Runnable() {
 			@Override
 			public void run() {
-//				Logger.info("[Execution] [" + TimeUtil.getUnixTime() + "] Executing job: " + job.getUrl().toString());
+				SimpleLogger.info("[Execution] Executing job: " + job.getUrl().toString());
 				List<URL> result = JobExecutorHelper.getContainedURL(job.getUrl());
-//				Logger.info("[Execution] [" + TimeUtil.getUnixTime() + "] Execution done. URL found: " + result.size());
+				SimpleLogger.info("[Execution] Execution done. URL found: " + result.size());
 				for (URL url : result) {
 //					Logger.info("Fould URL: " + url);
 					if (job.getDepth() > 1) {

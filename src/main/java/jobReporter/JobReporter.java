@@ -1,14 +1,9 @@
 package jobReporter;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import utils.ConfigUtil;
-import abstracts.AJob;
+import utils.SimpleLogger;
 import Job.WebCrawlingJob;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import abstracts.AJob;
 
 public class JobReporter {
 	
@@ -48,9 +43,14 @@ public class JobReporter {
 		 * TODO: change to AsyncRestTemplate
 		 * http://javattitude.com/2014/04/20/using-spring-4-asyncresttemplate/
 		 */
+		SimpleLogger.info("[Reporter] Reporting to MASTER about job: URL=" 
+				+ ((WebCrawlingJob)job).getUrl() + ", depth=" 
+				+ ((WebCrawlingJob)job).getDepth());
 		RestTemplate rest = new RestTemplate();
 		String result = rest.postForObject(JobReporterHelper.constructRequestUrl()
 				, JobReporterHelper.constructRequestJson(job), String.class);
-		System.out.println(result);
+		SimpleLogger.info("[Reporter] Report finished to MASTER about job: URL=" 
+				+ ((WebCrawlingJob)job).getUrl() + ", depth=" 
+				+ ((WebCrawlingJob)job).getDepth());
 	}
 }
