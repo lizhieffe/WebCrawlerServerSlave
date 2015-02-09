@@ -11,12 +11,12 @@ public class StartupHousekeeper implements ApplicationListener<ContextRefreshedE
 
 	@Override
 	public void onApplicationEvent(final ContextRefreshedEvent event) {
-//		SimpleLogger.info("Application has started");
+		SimpleLogger.info("Application has started");
         startServices();
 	}
 	
 	private void startServices() {
-//    	SimpleLogger.info("Starting services:");
+    	SimpleLogger.info("Starting services:");
         ThreadPoolService.getInstance().start();
     	JobExecuteService.getInstance().start(ThreadPoolService.getInstance());
     	JobReportService.getInstance().start(ThreadPoolService.getInstance());
