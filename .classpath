@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
   <classpathentry kind="src" path="src/main/java" including="**/*.java"/>
+  <classpathentry kind="src" path="src/main/resources" excluding="**/*.java|**/application.yml|**/application.properties"/>
   <classpathentry kind="output" path="target/classes"/>
   <classpathentry kind="var" path="M2_REPO/javax/validation/validation-api/1.1.0.Final/validation-api-1.1.0.Final.jar"/>
   <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
@@ -36,4 +37,5 @@
   <classpathentry kind="var" path="M2_REPO/org/springframework/spring-web/4.0.8.RELEASE/spring-web-4.0.8.RELEASE.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/springframework/spring-webmvc/4.0.8.RELEASE/spring-webmvc-4.0.8.RELEASE.jar"/>
   <classpathentry kind="var" path="M2_REPO/log4j/log4j/1.2.14/log4j-1.2.14.jar"/>
+  <classpathentry kind="var" path="M2_REPO/web/crawler/server/web-crawler-server-common/0.1.0/web-crawler-server-common-0.1.0.jar"/>
 </classpath>
