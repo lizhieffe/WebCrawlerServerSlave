@@ -1,13 +1,13 @@
 package services;
 
-import jobManager.JobManager;
-import jobReporter.JobReporter;
-import utils.LogUtil;
-import abstracts.AJob;
 import interfaces.IJobToReportMonitor;
 import interfaces.IService;
 import interfaces.IThreadPoolService;
+import jobManager.JobManager;
+import jobReporter.JobReporter;
+import utils.SimpleLogger;
 import Job.WebCrawlingJob;
+import abstracts.AJob;
 
 public class JobReportService implements IService, IJobToReportMonitor {
 	
@@ -38,7 +38,7 @@ public class JobReportService implements IService, IJobToReportMonitor {
 	
 	synchronized private void start() {
 		if (started) {
-			LogUtil.logServiceAlreadyStarted(this);
+			SimpleLogger.logServiceAlreadyStarted(this);
 			return;
 		}
 		else
@@ -46,17 +46,17 @@ public class JobReportService implements IService, IJobToReportMonitor {
 		
 		final String serviceName = this.getClass().getName();
 		try {
-			LogUtil.logServiceStartSucceed(serviceName);
+			SimpleLogger.logServiceStartSucceed(serviceName);
 			while (started) {
 				AJob jobToReport = null;
 				while ((jobToReport = JobManager.getInstance().popJobToReport()) == null)
 					wait();
 				JobReporter.getInstance().report((WebCrawlingJob)jobToReport);
 			}
-			LogUtil.logServiceStopSucceed(serviceName);
+			SimpleLogger.logServiceStopSucceed(serviceName);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
-			LogUtil.logServiceStartFail(serviceName);
+			SimpleLogger.logServiceStartFail(serviceName);
 		}
 	}
 	

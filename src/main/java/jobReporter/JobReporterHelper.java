@@ -1,9 +1,10 @@
 package jobReporter;
+
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import utils.ConfigUtil;
 import abstracts.AJob;
 import Job.WebCrawlingJob;
-
-import com.fasterxml.jackson.databind.node.ObjectNode;
 
 public class JobReporterHelper {
 	
@@ -13,13 +14,11 @@ public class JobReporterHelper {
 		return ConfigUtil.getMasterIp() + ":" + ConfigUtil.getMasterPort() + URI;
 	}
 	
-	static ObjectNode constructRequestJson(AJob job) {
-//		ObjectNode json = Json.newObject();
-//		json.put("type", "webcrawling");
-//		json.put("url", ((WebCrawlingJob)job).getUrl().toString());
-//		json.put("depth", String.valueOf(((WebCrawlingJob)job).getDepth()));
-//		return json;
-		
-		return null;
+	static MultiValueMap<String, Object> constructRequestJson(AJob job) {
+		MultiValueMap<String, Object> map = new LinkedMultiValueMap<String, Object>();
+		map.add("type", "webcrawling");
+		map.add("url", ((WebCrawlingJob)job).getUrl().toString());
+		map.add("depth", Integer.valueOf(((WebCrawlingJob)job).getDepth()));
+		return map;
 	}
 }

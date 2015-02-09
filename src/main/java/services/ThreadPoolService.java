@@ -1,9 +1,11 @@
 package services;
 
+import interfaces.IThreadPoolService;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import utils.LogUtil;
-import interfaces.IThreadPoolService;
+
+import utils.SimpleLogger;
 
 public class ThreadPoolService implements IThreadPoolService {
 	private static ThreadPoolService instance;
@@ -25,14 +27,14 @@ public class ThreadPoolService implements IThreadPoolService {
 	
 	public void start() {
 		es = Executors.newFixedThreadPool(50);
-		LogUtil.logServiceStartSucceed(this.getClass().getName());
+		SimpleLogger.logServiceStartSucceed(this.getClass().getName());
 	}
 	
 	public void stop() {
 		es.shutdownNow();
 		if (es.isShutdown())
-			LogUtil.logServiceStopSucceed(this.getClass().getName());
+			SimpleLogger.logServiceStopSucceed(this.getClass().getName());
 		else
-			LogUtil.logServiceStopFail(this.getClass().getName());
+			SimpleLogger.logServiceStopFail(this.getClass().getName());
 	}
 }

@@ -2,7 +2,7 @@ package services;
 
 import jobExecutor.JobExecutor;
 import jobManager.JobManager;
-import utils.LogUtil;
+import utils.SimpleLogger;
 import abstracts.AJob;
 import interfaces.IJobToExecuteMonitor;
 import interfaces.IService;
@@ -36,7 +36,7 @@ public class JobExecuteService implements IService, IJobToExecuteMonitor {
 	
 	synchronized private void start() {
 		if (started) {
-			LogUtil.logServiceAlreadyStarted(this);
+			SimpleLogger.logServiceAlreadyStarted(this);
 			return;
 		}
 		else
@@ -44,17 +44,17 @@ public class JobExecuteService implements IService, IJobToExecuteMonitor {
 		
 		final String serviceName = this.getClass().getName();
 		try {
-			LogUtil.logServiceStartSucceed(serviceName);
+			SimpleLogger.logServiceStartSucceed(serviceName);
 			while (started) {
 				AJob waitingJob = null;
 				while ((waitingJob = JobManager.getInstance().popWaitingJob()) == null)
 					wait();
 				JobExecutor.getInstance().execute((WebCrawlingJob)waitingJob);
 			}
-			LogUtil.logServiceStopSucceed(serviceName);
+			SimpleLogger.logServiceStopSucceed(serviceName);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
-			LogUtil.logServiceStartFail(serviceName);
+			SimpleLogger.logServiceStartFail(serviceName);
 		}	
 	}
 	

@@ -1,6 +1,9 @@
 package jobReporter;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
+
 import utils.ConfigUtil;
-import utils.LogUtil;
 import abstracts.AJob;
 import Job.WebCrawlingJob;
 
@@ -40,5 +43,14 @@ public class JobReporter {
 //				}
 //			}
 //		});
+		
+		/**
+		 * TODO: change to AsyncRestTemplate
+		 * http://javattitude.com/2014/04/20/using-spring-4-asyncresttemplate/
+		 */
+		RestTemplate rest = new RestTemplate();
+		String result = rest.postForObject(JobReporterHelper.constructRequestUrl()
+				, JobReporterHelper.constructRequestJson(job), String.class);
+		System.out.println(result);
 	}
 }
