@@ -45,8 +45,8 @@ public class JobExecuteService implements IService, IJobToExecuteMonitor {
 		final String serviceName = this.getClass().getName();
 		try {
 			SimpleLogger.logServiceStartSucceed(serviceName);
+			AJob waitingJob = null;
 			while (started) {
-				AJob waitingJob = null;
 				while ((waitingJob = JobManager.getInstance().popWaitingJob()) == null)
 					wait();
 				JobExecutor.getInstance().execute((WebCrawlingJob)waitingJob);

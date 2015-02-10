@@ -47,8 +47,8 @@ public class JobReportService implements IService, IJobToReportMonitor {
 		final String serviceName = this.getClass().getName();
 		try {
 			SimpleLogger.logServiceStartSucceed(serviceName);
+			AJob jobToReport = null;
 			while (started) {
-				AJob jobToReport = null;
 				while ((jobToReport = JobManager.getInstance().popJobToReport()) == null)
 					wait();
 				JobReporter.getInstance().report((WebCrawlingJob)jobToReport);

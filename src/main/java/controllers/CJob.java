@@ -17,8 +17,6 @@ import utils.SimpleLogger;
 @RestController
 public class CJob {
 
-//	private static final Logger logger = Logger.getLogger(CJob.class);
-
 	@RequestMapping(value = "/addslavejob", method = RequestMethod.POST, consumes="application/json",produces="application/json")
 	public RSimpleResponse addSlaveJob(@RequestBody RWebCrawlingJob reqJob) {
 		

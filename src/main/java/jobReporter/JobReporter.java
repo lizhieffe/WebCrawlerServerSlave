@@ -1,4 +1,9 @@
 package jobReporter;
+import java.util.concurrent.ExecutionException;
+
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.web.client.AsyncRestTemplate;
 
 import utils.SimpleLogger;
@@ -47,20 +52,21 @@ public class JobReporter {
 				+ ((WebCrawlingJob)job).getUrl() + ", depth=" 
 				+ ((WebCrawlingJob)job).getDepth());
 		
-//		RestTemplate rest = new RestTemplate();
-//		String result = rest.postForObject(JobReporterHelper.constructRequestUrl()
-//				, JobReporterHelper.constructRequestJson(job), String.class);
-//		SimpleLogger.info("[Reporter] Report finished to MASTER about job: URL=" 
-//				+ ((WebCrawlingJob)job).getUrl() + ", depth=" 
-//				+ ((WebCrawlingJob)job).getDepth());
-		
-		
-		
 		AsyncRestTemplate rest = new AsyncRestTemplate();
-		String result = rest.postForObject(JobReporterHelper.constructRequestUrl()
-				, JobReporterHelper.constructRequestJson(job), String.class);
-		SimpleLogger.info("[Reporter] Report finished to MASTER about job: URL=" 
+		ListenableFuture<ResponseEntity<String>> future = rest.exchange(JobReporterHelper.constructRequestUrl(),
+				HttpMethod.POST, JobReporterHelper.constructRequestHttpEntity(job), String.class);
+		SimpleLogger.info("[Reporter] Report job to MASTER about job: URL=" 
 				+ ((WebCrawlingJob)job).getUrl() + ", depth=" 
 				+ ((WebCrawlingJob)job).getDepth());
+		try {
+			ResponseEntity<String> response = future.get();
+			SimpleLogger.info("[Reporter] Report finished (" + response.getBody() + ") to MASTER about job: URL=" 
+				+ ((WebCrawlingJob)job).getUrl() + ", depth=" 
+				+ ((WebCrawlingJob)job).getDepth());
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			e.printStackTrace();
+		}
 	}
 }

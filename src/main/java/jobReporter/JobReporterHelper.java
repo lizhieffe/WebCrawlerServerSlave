@@ -1,7 +1,10 @@
 package jobReporter;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+
 import utils.ConfigUtil;
 import abstracts.AJob;
 import Job.WebCrawlingJob;
@@ -20,5 +23,9 @@ public class JobReporterHelper {
 		map.add("url", ((WebCrawlingJob)job).getUrl().toString());
 		map.add("depth", Integer.valueOf(((WebCrawlingJob)job).getDepth()));
 		return map;
+	}
+	
+	static HttpEntity<MultiValueMap<String, Object>> constructRequestHttpEntity(AJob job) {
+		return new HttpEntity<MultiValueMap<String, Object>>(constructRequestJson(job), new HttpHeaders());
 	}
 }
