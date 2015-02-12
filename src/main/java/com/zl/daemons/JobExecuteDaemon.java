@@ -1,37 +1,43 @@
-package services;
+package com.zl.daemons;
 
-import jobExecutor.JobExecutor;
-import jobManager.JobManager;
+import com.zl.interfaces.IJobToExecuteMonitor;
+import com.zl.job.executor.JobExecutor;
+import com.zl.job.manager.JobManager;
+
 import utils.SimpleLogger;
 import abstracts.AJob;
-import interfaces.IJobToExecuteMonitor;
-import interfaces.IService;
-import interfaces.IThreadPoolService;
+import interfaces.IDaemon;
+import interfaces.IThreadPoolDaemon;
 import Job.WebCrawlingJob;
 
-public class JobExecuteService implements IService, IJobToExecuteMonitor {
+public class JobExecuteDaemon implements IDaemon, IJobToExecuteMonitor {
 	
-	private static JobExecuteService instance;
+	private static JobExecuteDaemon instance;
 	private boolean started;
 	
-	private JobExecuteService() {
+	private JobExecuteDaemon() {
 	}
 	
-	synchronized public static JobExecuteService getInstance() {
+	@Override
+	synchronized public boolean isStarted() {
+		return this.started;
+	}
+	
+	synchronized public static JobExecuteDaemon getInstance() {
 		if (instance == null)
-			instance = new JobExecuteService();
+			instance = new JobExecuteDaemon();
 		return instance;
 	}
 	
 	@Override
-	public void start(IThreadPoolService threadPoolService) {
+	public void start(IThreadPoolDaemon threadPoolDaemon) {
 		Runnable task = new Runnable() {
 			@Override
 			public void run() {
 				start();
 			}
 		};
-		threadPoolService.submit(task);
+		threadPoolDaemon.submit(task);
 	}
 	
 	synchronized private void start() {

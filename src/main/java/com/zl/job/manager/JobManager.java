@@ -1,9 +1,11 @@
-package jobManager;
+package com.zl.job.manager;
 
 import java.util.ArrayList;
 import java.util.List;
-import services.JobExecuteService;
-import services.JobReportService;
+
+import com.zl.daemons.JobExecuteDaemon;
+import com.zl.daemons.JobReportDaemon;
+
 import abstracts.AJob;
 import interfaces.IJobManager;
 
@@ -33,7 +35,7 @@ public class JobManager implements IJobManager {
 			 */
 			jobsToExecute.add(job);
 		}
-		JobExecuteService.getInstance().onJobToExecuteAdded();
+		JobExecuteDaemon.getInstance().onJobToExecuteAdded();
 		return true;
 	}
 
@@ -71,7 +73,7 @@ public class JobManager implements IJobManager {
 				return false;
 			this.jobsToReport.add(job);
 		}
-		JobReportService.getInstance().onJobToReportAdded();
+		JobReportDaemon.getInstance().onJobToReportAdded();
 		return true;
 	}
 	

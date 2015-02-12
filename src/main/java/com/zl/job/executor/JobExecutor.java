@@ -1,10 +1,11 @@
-package jobExecutor;
+package com.zl.job.executor;
 
 import java.net.URL;
 import java.util.List;
 
+import com.zl.job.manager.JobManager;
+
 import utils.SimpleLogger;
-import jobManager.JobManager;
 import Job.WebCrawlingJob;
 import Job.WebCrawlingJobFactory;
 

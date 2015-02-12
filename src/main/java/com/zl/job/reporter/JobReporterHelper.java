@@ -1,4 +1,4 @@
-package jobReporter;
+package com.zl.job.reporter;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;

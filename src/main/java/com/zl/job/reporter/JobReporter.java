@@ -1,4 +1,4 @@
-package jobReporter;
+package com.zl.job.reporter;
 import java.util.concurrent.ExecutionException;
 
 import org.springframework.http.HttpMethod;
@@ -23,27 +23,7 @@ public class JobReporter {
 		return instance;
 	}
 	
-	public void report(final AJob job) {
-//		WSRequestHolder holder = WS.url(JobReporterHelper.constructRequestUrl());
-//		ObjectNode json = JobReporterHelper.constructRequestJson(job);
-//		holder.post(json).onRedeem(new F.Callback<WSResponse>() {
-//			@Override
-//			public void invoke(WSResponse response) throws Throwable {
-//				LogUtil.info("[Reporter] Reporting job:" + ((WebCrawlingJob)job).getUrl());
-//				JsonNode responseJson = response.asJson();
-//				if (responseJson.get("error") != null && responseJson.get("error").get("code").equals("0")) {
-//					LogUtil.info("[Reporter] job id [" + job.getId() + "] is reported to master " 
-//							+ ConfigUtil.getMasterIp() + ":" + ConfigUtil.getMasterPort());
-//				}
-//				/*
-//				 * if dispatch failed, move the job back to waiting status
-//				 */
-//				else {
-////					jobManager.moveJobToWaitingStatus(job);
-//				}
-//			}
-//		});
-		
+	public void report(final AJob job) {		
 		/**
 		 * TODO: change to AsyncRestTemplate
 		 * http://javattitude.com/2014/04/20/using-spring-4-asyncresttemplate/
