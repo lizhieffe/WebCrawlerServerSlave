@@ -42,14 +42,17 @@ public class AddSlaveDaemon implements IDaemon, IAddSlaveMonitor {
 	}
 
 	synchronized private void start() {
-		if (isStarted())
-			return;
-		else {
+		if (isStarted()) {
 			SimpleLogger.logServiceAlreadyStarted(this);
+			return;
+		}
+		else {
 			started = true;
 		}
 		
+		final String serviceName = this.getClass().getName();
 		synchronized (this) {
+			SimpleLogger.logServiceStartSucceed(serviceName);
 			try {
 				while (started) {
 					while (added) {
@@ -57,8 +60,10 @@ public class AddSlaveDaemon implements IDaemon, IAddSlaveMonitor {
 					}
 					int currTime = TimeUtil.getUnixTime();
 					int eclapse;
-					if ((eclapse = currTime - last) < interval)
+					if ((eclapse = currTime - last) < interval) {
+						SimpleLogger.info("[/addslave] next request will be sent in " + (interval - eclapse) + " sec");
 						Thread.sleep((interval - eclapse) * 1000);
+					}
 					last = TimeUtil.getUnixTime();
 					added = true;
 					AddSlaveDaemonHelper.add();

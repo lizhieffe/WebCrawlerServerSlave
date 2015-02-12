@@ -34,10 +34,10 @@ public class AddSlaveDaemonHelper {
 			else
 				SimpleLogger.info("[AddSlave] Add self to master as slave succeeds");
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 			AddSlaveDaemon.getInstance().onAddSlaveFail();
 		} catch (ExecutionException e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 			AddSlaveDaemon.getInstance().onAddSlaveFail();
 		}
 	}
