@@ -1,6 +1,5 @@
 package com.zl.daemons;
 
-import java.util.concurrent.ExecutionException;
 import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -8,10 +7,13 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.concurrent.ListenableFuture;
+import org.springframework.util.concurrent.ListenableFutureCallback;
 import org.springframework.web.client.AsyncRestTemplate;
+
 import utils.AppProperties;
-import utils.SimpleLogger;
 import utils.ConfigUtil;
+import utils.SimpleLogger;
+
 import com.zl.util.ResponseUtil;
 
 public class AddSlaveDaemonHelper {
@@ -23,21 +25,21 @@ public class AddSlaveDaemonHelper {
 		AsyncRestTemplate rest = new AsyncRestTemplate();
 		ListenableFuture<ResponseEntity<String>> future = rest.exchange(constructRequestUrl(),
 				HttpMethod.POST, constructRequestHttpEntity(), String.class);
-		try {
-			ResponseEntity<String> response = future.get();
-			if (!ResponseUtil.succeed(response)) {
-				SimpleLogger.info("[AddSlave] Add self to master as slave fails");
+		future.addCallback(new ListenableFutureCallback<ResponseEntity<String>>() {
+			@Override
+			public void onSuccess(ResponseEntity<String> result) {
+				if (!ResponseUtil.succeed(result)) {
+					SimpleLogger.info("[AddSlave] Add self to master as slave fails");
+					AddSlaveDaemon.getInstance().onAddSlaveFail();
+				}
+				else
+					SimpleLogger.info("[AddSlave] Add self to master as slave succeeds");
+			}
+			@Override
+			public void onFailure(Throwable ex) {
 				AddSlaveDaemon.getInstance().onAddSlaveFail();
 			}
-			else
-				SimpleLogger.info("[AddSlave] Add self to master as slave succeeds");
-		} catch (InterruptedException e) {
-//			e.printStackTrace();
-			AddSlaveDaemon.getInstance().onAddSlaveFail();
-		} catch (ExecutionException e) {
-//			e.printStackTrace();
-			AddSlaveDaemon.getInstance().onAddSlaveFail();
-		}
+		});
 	}
 	
 	private String constructRequestUrl() {
