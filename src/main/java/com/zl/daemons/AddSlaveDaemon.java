@@ -1,7 +1,6 @@
 package com.zl.daemons;
 
 import com.zl.interfaces.IAddSlaveMonitor;
-
 import interfaces.IDaemon;
 import interfaces.IThreadPoolDaemon;
 import utils.SimpleLogger;
@@ -15,9 +14,10 @@ public class AddSlaveDaemon implements IDaemon, IAddSlaveMonitor {
 	private int last = 0;
 	
 	private static AddSlaveDaemon instance;
+	private AddSlaveDaemonHelper helper;
 	
 	private AddSlaveDaemon() {
-		
+		helper = new AddSlaveDaemonHelper();
 	}
 	
 	public static AddSlaveDaemon getInstance() {
@@ -66,7 +66,7 @@ public class AddSlaveDaemon implements IDaemon, IAddSlaveMonitor {
 					}
 					last = TimeUtil.getUnixTime();
 					added = true;
-					AddSlaveDaemonHelper.add();
+					helper.add();
 				}
 			} catch (Exception e) {
 				e.printStackTrace();

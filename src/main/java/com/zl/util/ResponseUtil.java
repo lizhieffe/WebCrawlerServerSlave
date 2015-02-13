@@ -1,6 +1,6 @@
 package com.zl.util;
 
-import org.json.JSONObject;
+import org.json.JSONException;
 import org.springframework.http.ResponseEntity;
 
 import utils.StringUtil;
@@ -9,14 +9,13 @@ public class ResponseUtil {
 	public static boolean succeed(ResponseEntity<String> response) {
 		if (response == null)
 			return false;
-		JSONObject body = null;
-		if ((body = StringUtil.strToJson(response.getBody())) == null)
+		if (StringUtil.strToJson(response.getBody()) == null)
 			return false;
-		if (body.getJSONObject("error") == null)
+		try {
+			int code = StringUtil.strToJson(response.getBody()).getJSONObject("error").getInt("code");
+			return code == 0;
+		} catch(JSONException e) {
 			return false;
-		String code = null;
-		if ((code = body.getJSONObject("error").getString("code")) == null)
-			return false;
-		return code.equals("0");
+		}
 	}
 }
