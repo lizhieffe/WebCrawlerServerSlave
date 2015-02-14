@@ -19,6 +19,7 @@ public class SlaveMgntDaemon implements IDaemon, ISlaveMgntMonitor {
 
 	private SlaveMgntDaemon() {
 		addSlaveHelper = new SlaveMgntDaemonAddSlaveHelper();
+		removeSlaveHelper = new SlaveMgntDaemonRemoveSlaveHelper();
 	}
 	
 	public static SlaveMgntDaemon getInstance() {
