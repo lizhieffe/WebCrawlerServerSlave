@@ -30,14 +30,14 @@ public class SlaveMgntDaemonAddSlaveHelper {
 			public void onSuccess(ResponseEntity<String> result) {
 				if (!ResponseUtil.succeed(result)) {
 					SimpleLogger.info("[AddSlave] Add self to master as slave fails");
-					SlaveMgntDaemon.getInstance().onAddSlaveFail();
+					SlaveMgntDaemon.getInstance().onAddSlaveFailure();
 				}
 				else
 					SimpleLogger.info("[AddSlave] Add self to master as slave succeeds");
 			}
 			@Override
 			public void onFailure(Throwable ex) {
-				SlaveMgntDaemon.getInstance().onAddSlaveFail();
+				SlaveMgntDaemon.getInstance().onAddSlaveFailure();
 			}
 		});
 	}

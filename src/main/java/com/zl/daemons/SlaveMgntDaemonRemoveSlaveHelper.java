@@ -29,15 +29,15 @@ public class SlaveMgntDaemonRemoveSlaveHelper {
 			@Override
 			public void onSuccess(ResponseEntity<String> result) {
 				if (!ResponseUtil.succeed(result)) {
-					SimpleLogger.info("[RemoveSlave] Add self to master as slave fails");
-					SlaveMgntDaemon.getInstance().onAddSlaveFail();
+					SimpleLogger.info("[RemoveSlave] Remove self to master as slave fails");
+					SlaveMgntDaemon.getInstance().onAddSlaveFailure();
 				}
 				else
-					SimpleLogger.info("[RemoveSlave] Add self to master as slave succeeds");
+					SimpleLogger.info("[RemoveSlave] Remove self to master as slave succeeds");
 			}
 			@Override
 			public void onFailure(Throwable ex) {
-				SlaveMgntDaemon.getInstance().onAddSlaveFail();
+				SlaveMgntDaemon.getInstance().onAddSlaveFailure();
 			}
 		});
 	}

@@ -1,12 +1,12 @@
 package com.zl.daemons;
 
-import com.zl.interfaces.IAddSlaveMonitor;
+import com.zl.interfaces.ISlaveMgntMonitor;
 import interfaces.IDaemon;
 import interfaces.IThreadPoolDaemon;
 import utils.SimpleLogger;
 import utils.TimeUtil;
 
-public class SlaveMgntDaemon implements IDaemon, IAddSlaveMonitor {
+public class SlaveMgntDaemon implements IDaemon, ISlaveMgntMonitor {
 
 	private boolean started = false;
 	private boolean added = false;
@@ -86,12 +86,22 @@ public class SlaveMgntDaemon implements IDaemon, IAddSlaveMonitor {
 	}
 	
 	@Override
-	public void onAddSlaveSucceed() {
+	public void onAddSlaveSuccess() {
 		
 	}
 
 	@Override
-	synchronized public void onAddSlaveFail() {
+	synchronized public void onAddSlaveFailure() {
 		added = false;
+	}
+
+	@Override
+	synchronized public void onRemoveSlaveSuccess() {
+		added = false;
+	}
+
+	@Override
+	synchronized public void onRemoveSlaveFailure() {
+		
 	}
 }
