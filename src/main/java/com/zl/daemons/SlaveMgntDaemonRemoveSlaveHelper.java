@@ -16,12 +16,12 @@ import utils.SimpleLogger;
 
 import com.zl.util.ResponseUtil;
 
-public class AddSlaveDaemonHelper {
+public class SlaveMgntDaemonRemoveSlaveHelper {
 	
-	private static String URI =  "/addslave";
+	private static String URI =  "/removeslave";
 
-	public void add() {
-		SimpleLogger.info("[AddSlave] Adding self to master as slave");
+	public void remove() {
+		SimpleLogger.info("[RemoveSlave] Removing self to master as slave");
 		AsyncRestTemplate rest = new AsyncRestTemplate();
 		ListenableFuture<ResponseEntity<String>> future = rest.exchange(constructRequestUrl(),
 				HttpMethod.POST, constructRequestHttpEntity(), String.class);
@@ -29,15 +29,15 @@ public class AddSlaveDaemonHelper {
 			@Override
 			public void onSuccess(ResponseEntity<String> result) {
 				if (!ResponseUtil.succeed(result)) {
-					SimpleLogger.info("[AddSlave] Add self to master as slave fails");
-					AddSlaveDaemon.getInstance().onAddSlaveFail();
+					SimpleLogger.info("[RemoveSlave] Add self to master as slave fails");
+					SlaveMgntDaemon.getInstance().onAddSlaveFail();
 				}
 				else
-					SimpleLogger.info("[AddSlave] Add self to master as slave succeeds");
+					SimpleLogger.info("[RemoveSlave] Add self to master as slave succeeds");
 			}
 			@Override
 			public void onFailure(Throwable ex) {
-				AddSlaveDaemon.getInstance().onAddSlaveFail();
+				SlaveMgntDaemon.getInstance().onAddSlaveFail();
 			}
 		});
 	}

@@ -2,7 +2,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
-import com.zl.daemons.AddSlaveDaemon;
+import com.zl.daemons.SlaveMgntDaemon;
 import com.zl.daemons.JobExecuteDaemon;
 import com.zl.daemons.JobReportDaemon;
 
@@ -24,7 +24,7 @@ public class StartupHousekeeper implements ApplicationListener<ContextRefreshedE
     	JobExecuteDaemon.getInstance().start(ThreadPoolDaemon.getInstance());
     	JobReportDaemon.getInstance().start(ThreadPoolDaemon.getInstance());
 //        SimpleLogger.info("port = " + ApplicationProperties.getInstance().getIp());
-    	AddSlaveDaemon.getInstance().start(ThreadPoolDaemon.getInstance());
+    	SlaveMgntDaemon.getInstance().start(ThreadPoolDaemon.getInstance());
     	
     }
 }

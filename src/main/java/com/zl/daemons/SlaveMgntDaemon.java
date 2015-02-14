@@ -6,23 +6,24 @@ import interfaces.IThreadPoolDaemon;
 import utils.SimpleLogger;
 import utils.TimeUtil;
 
-public class AddSlaveDaemon implements IDaemon, IAddSlaveMonitor {
+public class SlaveMgntDaemon implements IDaemon, IAddSlaveMonitor {
 
 	private boolean started = false;
 	private boolean added = false;
 	private static final int interval = 60; // delay between each add slave request
 	private int last = 0;
 	
-	private static AddSlaveDaemon instance;
-	private AddSlaveDaemonHelper helper;
-	
-	private AddSlaveDaemon() {
-		helper = new AddSlaveDaemonHelper();
+	private static SlaveMgntDaemon instance;
+	private SlaveMgntDaemonAddSlaveHelper addSlaveHelper;
+	private SlaveMgntDaemonRemoveSlaveHelper removeSlaveHelper;
+
+	private SlaveMgntDaemon() {
+		addSlaveHelper = new SlaveMgntDaemonAddSlaveHelper();
 	}
 	
-	public static AddSlaveDaemon getInstance() {
+	public static SlaveMgntDaemon getInstance() {
 		if (instance == null)
-			instance = new AddSlaveDaemon();
+			instance = new SlaveMgntDaemon();
 		return instance;
 	}
 	
@@ -53,6 +54,11 @@ public class AddSlaveDaemon implements IDaemon, IAddSlaveMonitor {
 		final String serviceName = this.getClass().getName();
 		synchronized (this) {
 			SimpleLogger.logServiceStartSucceed(serviceName);
+			
+			/**
+			 * try to remove then add in case the slave is already registered in Master
+			 */
+			removeSlaveHelper.remove();
 			try {
 				while (started) {
 					while (added) {
@@ -66,7 +72,7 @@ public class AddSlaveDaemon implements IDaemon, IAddSlaveMonitor {
 					}
 					last = TimeUtil.getUnixTime();
 					added = true;
-					helper.add();
+					addSlaveHelper.add();
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
