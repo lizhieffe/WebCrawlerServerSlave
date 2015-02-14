@@ -1,4 +1,4 @@
-package com.zl.job.executor;
+package com.zl.tasks;
 
 import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
@@ -26,7 +26,7 @@ import java.util.StringTokenizer;
  * @author Andreas Hess <andreas.hess@ucd.ie>, 01/02/2003
  */
 
-public class JobExecutorHelper
+public class WebCrawlingTaskHelper
 {
 
 	/**

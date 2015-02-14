@@ -45,6 +45,7 @@ public class JobManager implements IJobManager {
 			return false;
 		jobsInExecuting.remove(job);
 		jobsToExecute.add(job);
+		JobExecuteDaemon.getInstance().onJobToExecuteAdded();
 		return true;
 	}
 

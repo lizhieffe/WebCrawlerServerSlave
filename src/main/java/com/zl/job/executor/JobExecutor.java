@@ -3,11 +3,15 @@ package com.zl.job.executor;
 import java.net.URL;
 import java.util.List;
 
-import com.zl.job.manager.JobManager;
-
 import utils.SimpleLogger;
 import Job.WebCrawlingJob;
 import Job.WebCrawlingJobFactory;
+import abstracts.AFutureTaskCallback;
+
+import com.zl.job.manager.JobManager;
+import com.zl.tasks.WebCrawlingTask;
+
+import daemons.ThreadPoolDaemon;
 
 public class JobExecutor {
 	private static JobExecutor instance;
@@ -26,21 +30,26 @@ public class JobExecutor {
 	public void execute(final WebCrawlingJob job) {
 		if (job == null)
 			return;
-		Runnable runnable = new Runnable() {
+		SimpleLogger.info("[Execution] Executing job: " + job.getUrl().toString());
+		WebCrawlingTask task = new WebCrawlingTask(ThreadPoolDaemon.getInstance().getExecutorService(), job.getUrl());
+		task.startWithCallback(new AFutureTaskCallback<List<URL>>() {
 			@Override
-			public void run() {
-				SimpleLogger.info("[Execution] Executing job: " + job.getUrl().toString());
-				List<URL> result = JobExecutorHelper.getContainedURL(job.getUrl());
-				SimpleLogger.info("[Execution] Execution done. URL found: " + result.size());
+			public void onSuccess(List<URL> result) {
+				super.onSuccess(result);
 				for (URL url : result) {
-//					Logger.info("Fould URL: " + url);
 					if (job.getDepth() > 1) {
 						WebCrawlingJob newJob = WebCrawlingJobFactory.create(url.toString(), job.getDepth() - 1);
 						jobManager.addJobToReport(newJob);
 					}
 				}
+				SimpleLogger.info("[Execution] Execution done. URL found: " + result.size());
 			}
-		};
-		new Thread(runnable).start();
+
+			@Override
+			public void onFailure(Throwable thrown) {
+				super.onFailure(thrown);
+				jobManager.moveJobToWaitingStatus(job);
+			}
+		});
 	}
 }
