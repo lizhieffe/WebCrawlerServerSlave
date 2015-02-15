@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import utils.StringUtil;
 
 public class ResponseUtil {
-	public static boolean succeed(ResponseEntity<String> response) {
+	public static boolean isSuccess(ResponseEntity<String> response) {
 		if (response == null)
 			return false;
 		if (StringUtil.strToJson(response.getBody()) == null)

@@ -1,13 +1,12 @@
 package com.zl.daemons;
 
-import com.zl.interfaces.IJobToReportMonitor;
-import com.zl.job.manager.JobManager;
-
 import interfaces.IDaemon;
 import interfaces.IThreadPoolDaemon;
 import utils.SimpleLogger;
 import Job.WebCrawlingJob;
 import abstracts.AJob;
+import com.zl.interfaces.IJobToReportMonitor;
+import com.zl.job.manager.JobManager;
 
 public class JobReportDaemon implements IDaemon, IJobToReportMonitor {
 	
@@ -56,7 +55,7 @@ public class JobReportDaemon implements IDaemon, IJobToReportMonitor {
 			while (started) {
 				while ((jobToReport = JobManager.getInstance().popJobToReport()) == null)
 					wait();
-				helper.report((WebCrawlingJob)jobToReport);
+				helper.reportJob((WebCrawlingJob)jobToReport);
 			}
 			SimpleLogger.logServiceStopSucceed(serviceName);
 		} catch (InterruptedException e) {

@@ -1,10 +1,11 @@
 package com.zl.daemons;
 
-import com.zl.interfaces.ISlaveMgntMonitor;
 import interfaces.IDaemon;
 import interfaces.IThreadPoolDaemon;
 import utils.SimpleLogger;
 import utils.TimeUtil;
+
+import com.zl.interfaces.ISlaveMgntMonitor;
 
 public class SlaveMgntDaemon implements IDaemon, ISlaveMgntMonitor {
 
@@ -56,10 +57,6 @@ public class SlaveMgntDaemon implements IDaemon, ISlaveMgntMonitor {
 		synchronized (this) {
 			SimpleLogger.logServiceStartSucceed(serviceName);
 			
-			/**
-			 * try to remove then add in case the slave is already registered in Master
-			 */
-			removeSlaveHelper.remove();
 			try {
 				while (started) {
 					while (added) {
@@ -73,7 +70,7 @@ public class SlaveMgntDaemon implements IDaemon, ISlaveMgntMonitor {
 					}
 					last = TimeUtil.getUnixTime();
 					added = true;
-					addSlaveHelper.add();
+					addSlaveHelper.addSlave();
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
