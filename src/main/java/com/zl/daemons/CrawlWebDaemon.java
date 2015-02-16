@@ -1,21 +1,30 @@
 package com.zl.daemons;
 
-import com.zl.interfaces.IJobToExecuteMonitor;
-import com.zl.job.executor.JobExecutor;
-import com.zl.job.manager.JobManager;
-
-import utils.SimpleLogger;
-import abstracts.AJob;
 import interfaces.IDaemon;
 import interfaces.IThreadPoolDaemon;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import utils.SimpleLogger;
 import Job.WebCrawlingJob;
+import abstracts.AJob;
+import com.zl.interfaces.IJobToExecuteMonitor;
+import com.zl.job.manager.JobManager;
 
-public class JobExecuteDaemon implements IDaemon, IJobToExecuteMonitor {
+@Component
+public class CrawlWebDaemon implements IDaemon, IJobToExecuteMonitor {
 	
-	private static JobExecuteDaemon instance;
+	@Autowired
+	public JobManager jobManager;
+	
+	@Autowired
+	public CrawlWebDaemonHelper helper;
+	
+	private static CrawlWebDaemon instance;
 	private boolean started;
+//	private CrawlWebDaemonHelper helper;
 	
-	private JobExecuteDaemon() {
+	public CrawlWebDaemon() {
+//		this.helper = new CrawlWebDaemonHelper();
 	}
 	
 	@Override
@@ -23,9 +32,9 @@ public class JobExecuteDaemon implements IDaemon, IJobToExecuteMonitor {
 		return this.started;
 	}
 	
-	synchronized public static JobExecuteDaemon getInstance() {
+	synchronized public static CrawlWebDaemon getInstance() {
 		if (instance == null)
-			instance = new JobExecuteDaemon();
+			instance = new CrawlWebDaemon();
 		return instance;
 	}
 	
@@ -53,9 +62,10 @@ public class JobExecuteDaemon implements IDaemon, IJobToExecuteMonitor {
 			SimpleLogger.logServiceStartSucceed(serviceName);
 			AJob waitingJob = null;
 			while (started) {
-				while ((waitingJob = JobManager.getInstance().popWaitingJob()) == null)
+				while ((waitingJob = jobManager.popWaitingJob()) == null)
 					wait();
-				JobExecutor.getInstance().execute((WebCrawlingJob)waitingJob);
+				helper.crawlWeb((WebCrawlingJob)waitingJob);
+//				JobExecutor.getInstance().execute((WebCrawlingJob)waitingJob);
 			}
 			SimpleLogger.logServiceStopSucceed(serviceName);
 		} catch (InterruptedException e) {

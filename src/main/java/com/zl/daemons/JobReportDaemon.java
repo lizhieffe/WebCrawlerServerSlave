@@ -2,20 +2,38 @@ package com.zl.daemons;
 
 import interfaces.IDaemon;
 import interfaces.IThreadPoolDaemon;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import utils.SimpleLogger;
 import Job.WebCrawlingJob;
 import abstracts.AJob;
+
 import com.zl.interfaces.IJobToReportMonitor;
 import com.zl.job.manager.JobManager;
 
+@Component
 public class JobReportDaemon implements IDaemon, IJobToReportMonitor {
 	
+	@Autowired
+	public JobReportDaemonHelper helper;
+	
+	@Autowired
+	public JobManager jobManager;
+
+	
+	
+	
+	
+	
+	
 	private static JobReportDaemon instance;
-	private JobReportDaemonHelper helper;
+//	private JobReportDaemonHelper helper;
 	private boolean started;
 	
-	private JobReportDaemon() {
-		this.helper = new JobReportDaemonHelper();
+	public JobReportDaemon() {
+//		this.helper = new JobReportDaemonHelper();
 	}
 	
 	synchronized public static JobReportDaemon getInstance() {
@@ -53,7 +71,7 @@ public class JobReportDaemon implements IDaemon, IJobToReportMonitor {
 			SimpleLogger.logServiceStartSucceed(serviceName);
 			AJob jobToReport = null;
 			while (started) {
-				while ((jobToReport = JobManager.getInstance().popJobToReport()) == null)
+				while ((jobToReport = jobManager.popJobToReport()) == null)
 					wait();
 				helper.reportJob((WebCrawlingJob)jobToReport);
 			}

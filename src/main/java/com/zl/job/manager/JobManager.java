@@ -1,23 +1,34 @@
 package com.zl.job.manager;
 
+import interfaces.IJobManager;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import com.zl.daemons.JobExecuteDaemon;
-import com.zl.daemons.JobReportDaemon;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import abstracts.AJob;
-import interfaces.IJobManager;
 
+import com.zl.daemons.CrawlWebDaemon;
+import com.zl.daemons.JobReportDaemon;
+
+@Component
 public class JobManager implements IJobManager {
 
+	@Autowired
+	public JobReportDaemon jobReportDaemon;
+	
+	@Autowired
+	public CrawlWebDaemon crawlWebDaemon;
+	
 	private List<AJob> jobsToExecute = new ArrayList<AJob>();
 	private List<AJob> jobsInExecuting = new ArrayList<AJob>();
 	private List<AJob> jobsToReport = new ArrayList<AJob>();
 	
 	private static JobManager instance = null;
 	
-	private JobManager() {
+	public JobManager() {
 		
 	}
 	
@@ -35,7 +46,7 @@ public class JobManager implements IJobManager {
 			 */
 			jobsToExecute.add(job);
 		}
-		JobExecuteDaemon.getInstance().onJobToExecuteAdded();
+		crawlWebDaemon.onJobToExecuteAdded();
 		return true;
 	}
 
@@ -45,7 +56,7 @@ public class JobManager implements IJobManager {
 			return false;
 		jobsInExecuting.remove(job);
 		jobsToExecute.add(job);
-		JobExecuteDaemon.getInstance().onJobToExecuteAdded();
+		crawlWebDaemon.onJobToExecuteAdded();
 		return true;
 	}
 
@@ -74,7 +85,7 @@ public class JobManager implements IJobManager {
 				return false;
 			this.jobsToReport.add(job);
 		}
-		JobReportDaemon.getInstance().onJobToReportAdded();
+		jobReportDaemon.onJobToReportAdded();
 		return true;
 	}
 	

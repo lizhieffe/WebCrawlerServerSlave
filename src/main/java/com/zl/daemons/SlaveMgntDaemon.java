@@ -1,5 +1,7 @@
 package com.zl.daemons;
 
+import org.springframework.stereotype.Component;
+
 import interfaces.IDaemon;
 import interfaces.IThreadPoolDaemon;
 import utils.SimpleLogger;
@@ -7,6 +9,7 @@ import utils.TimeUtil;
 
 import com.zl.interfaces.ISlaveMgntMonitor;
 
+@Component
 public class SlaveMgntDaemon implements IDaemon, ISlaveMgntMonitor {
 
 	private boolean started = false;
@@ -18,7 +21,7 @@ public class SlaveMgntDaemon implements IDaemon, ISlaveMgntMonitor {
 	private SlaveMgntDaemonAddSlaveHelper addSlaveHelper;
 	private SlaveMgntDaemonRemoveSlaveHelper removeSlaveHelper;
 
-	private SlaveMgntDaemon() {
+	public SlaveMgntDaemon() {
 		addSlaveHelper = new SlaveMgntDaemonAddSlaveHelper();
 		removeSlaveHelper = new SlaveMgntDaemonRemoveSlaveHelper();
 	}

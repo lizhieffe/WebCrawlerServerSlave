@@ -1,6 +1,8 @@
 package com.zl.services;
 
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -16,7 +18,11 @@ import abstracts.AService;
 import com.zl.daemons.SlaveMgntDaemon;
 
 @Service
+@Scope("prototype")
 public class RemoveSlaveService extends AService {
+	
+	@Autowired
+	public SlaveMgntDaemon slaveMgntDaemon;
 	
 	@Async
 	public void removeSlave() {
@@ -52,11 +58,11 @@ public class RemoveSlaveService extends AService {
 
 	@Override
 	public void onSuccess(ResponseEntity<String> response) {
-		SlaveMgntDaemon.getInstance().onRemoveSlaveSuccess();
+		slaveMgntDaemon.onRemoveSlaveSuccess();
 	}
 
 	@Override
 	public void onFailure(ResponseEntity<String> response) {
-		SlaveMgntDaemon.getInstance().onRemoveSlaveFailure();
+		slaveMgntDaemon.onRemoveSlaveFailure();
 	}
 }

@@ -1,6 +1,7 @@
 package com.zl.services;
 
 import org.json.JSONObject;
+import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -14,13 +15,17 @@ import Job.WebCrawlingJob;
 import abstracts.AJob;
 import abstracts.AService;
 
+import com.zl.interfaces.IReportJobService;
+
 @Service
-public class ReportJobService extends AService {
+@Scope("prototype")
+public class ReportJobService extends AService implements IReportJobService {
 
 	private AJob job;
 	
 	@Async
-	public void reportJob(final AJob job) {
+	@Override
+	public void reportJob(AJob job) {
 		this.job = job;
 		this.start();
 	}
@@ -54,7 +59,7 @@ public class ReportJobService extends AService {
 
 	@Override
 	public void onSuccess(ResponseEntity<String> response) {
-
+	
 	}
 
 	@Override

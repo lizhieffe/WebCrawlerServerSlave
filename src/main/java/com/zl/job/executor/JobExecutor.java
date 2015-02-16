@@ -3,17 +3,22 @@ package com.zl.job.executor;
 import java.net.URL;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import utils.SimpleLogger;
 import Job.WebCrawlingJob;
 import Job.WebCrawlingJobFactory;
 import abstracts.AFutureTaskCallback;
 
+import com.zl.daemons.ThreadPoolDaemon;
 import com.zl.job.manager.JobManager;
 import com.zl.tasks.WebCrawlingTask;
 
-import daemons.ThreadPoolDaemon;
-
 public class JobExecutor {
+	
+	@Autowired
+	public ThreadPoolDaemon threadPoolDaemon;
+	
 	private static JobExecutor instance;
 	private JobManager jobManager;
 	
@@ -31,7 +36,7 @@ public class JobExecutor {
 		if (job == null)
 			return;
 		SimpleLogger.info("[Execution] Executing job: " + job.getUrl().toString());
-		WebCrawlingTask task = new WebCrawlingTask(ThreadPoolDaemon.getInstance().getExecutorService(), job.getUrl());
+		WebCrawlingTask task = new WebCrawlingTask(threadPoolDaemon.getExecutorService(), job.getUrl());
 		task.startWithCallback(new AFutureTaskCallback<List<URL>>() {
 			@Override
 			public void onSuccess(List<URL> result) {
