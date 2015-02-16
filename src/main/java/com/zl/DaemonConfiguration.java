@@ -4,10 +4,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 import com.zl.daemons.CrawlWebDaemon;
-import com.zl.daemons.JobReportDaemon;
-import com.zl.daemons.JobReportDaemonHelper;
 import com.zl.daemons.ParseWebContentDaemon;
+import com.zl.daemons.ReportJobDaemon;
+import com.zl.daemons.ReportJobDaemonHelper;
 import com.zl.daemons.SlaveMgntDaemon;
+import com.zl.daemons.SlaveMgntDaemonHelper;
 import com.zl.daemons.ThreadPoolDaemon;
 import com.zl.interfaces.IBeanConfiguration;
 
@@ -23,19 +24,23 @@ public class DaemonConfiguration implements IBeanConfiguration {
 		return new CrawlWebDaemon();
 	}
 	
-	public JobReportDaemon createJobReportDaemon() {
-		return new JobReportDaemon();
-	}
-	
-	public SlaveMgntDaemon createSlaveMgntDaemon() {
-		return new SlaveMgntDaemon();
+	public ReportJobDaemon createJobReportDaemon() {
+		return new ReportJobDaemon();
 	}
 	
 	public ParseWebContentDaemon createParseWebContentDaemon() {
 		return new ParseWebContentDaemon();
 	}
 	
-	public JobReportDaemonHelper createJobReportDaemonHelper() {
-		return new JobReportDaemonHelper();
+	public ReportJobDaemonHelper createJobReportDaemonHelper() {
+		return new ReportJobDaemonHelper();
+	}
+	
+	public SlaveMgntDaemon createSlaveMgntDaemon() {
+		return new SlaveMgntDaemon();
+	}
+	
+	public SlaveMgntDaemonHelper createSlaveMgntDaemonHelper() {
+		return new SlaveMgntDaemonHelper();
 	}
 }

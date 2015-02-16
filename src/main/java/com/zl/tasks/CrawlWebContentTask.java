@@ -10,7 +10,7 @@ import Job.WebCrawlingJobFactory;
 import abstracts.AFutureTask;
 import abstracts.AFutureTaskCallback;
 
-import com.zl.job.manager.JobManager;
+import com.zl.job.managers.JobManager;
 
 public class CrawlWebContentTask extends AFutureTask <List<URL>> {
 

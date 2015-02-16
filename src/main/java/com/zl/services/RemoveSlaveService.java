@@ -16,15 +16,17 @@ import utils.ConfigUtil;
 import abstracts.AService;
 
 import com.zl.daemons.SlaveMgntDaemon;
+import com.zl.interfaces.IRemoveSlaveService;
 
 @Service
 @Scope("prototype")
-public class RemoveSlaveService extends AService {
+public class RemoveSlaveService extends AService implements IRemoveSlaveService {
 	
 	@Autowired
 	public SlaveMgntDaemon slaveMgntDaemon;
 	
 	@Async
+	@Override
 	public void removeSlave() {
 		this.start();
 	}

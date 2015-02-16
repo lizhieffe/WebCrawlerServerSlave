@@ -1,14 +1,17 @@
 package com.zl.daemons;
 
-import interfaces.IDaemon;
-import interfaces.IThreadPoolDaemon;
+import com.zl.interfaces.IDaemon;
+import com.zl.interfaces.IThreadPoolDaemon;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 import utils.SimpleLogger;
 import Job.WebCrawlingJob;
 import abstracts.AJob;
+
 import com.zl.interfaces.IJobToExecuteMonitor;
-import com.zl.job.manager.JobManager;
+import com.zl.job.managers.JobManager;
 
 @Component
 public class CrawlWebDaemon implements IDaemon, IJobToExecuteMonitor {
@@ -19,23 +22,14 @@ public class CrawlWebDaemon implements IDaemon, IJobToExecuteMonitor {
 	@Autowired
 	public CrawlWebDaemonHelper helper;
 	
-	private static CrawlWebDaemon instance;
 	private boolean started;
-//	private CrawlWebDaemonHelper helper;
 	
 	public CrawlWebDaemon() {
-//		this.helper = new CrawlWebDaemonHelper();
 	}
 	
 	@Override
 	synchronized public boolean isStarted() {
 		return this.started;
-	}
-	
-	synchronized public static CrawlWebDaemon getInstance() {
-		if (instance == null)
-			instance = new CrawlWebDaemon();
-		return instance;
 	}
 	
 	@Override

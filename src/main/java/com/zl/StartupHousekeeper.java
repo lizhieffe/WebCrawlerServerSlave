@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import utils.SimpleLogger;
 
 import com.zl.daemons.CrawlWebDaemon;
-import com.zl.daemons.JobReportDaemon;
+import com.zl.daemons.ReportJobDaemon;
 import com.zl.daemons.ParseWebContentDaemon;
 import com.zl.daemons.SlaveMgntDaemon;
 import com.zl.daemons.ThreadPoolDaemon;
@@ -26,7 +26,7 @@ public class StartupHousekeeper implements ApplicationListener<ContextRefreshedE
 	public CrawlWebDaemon crawlWebDaemon;
 	
 	@Autowired
-	public JobReportDaemon jobReportDaemon;
+	public ReportJobDaemon jobReportDaemon;
 	
 	@Autowired
 	public SlaveMgntDaemon slaveMgntDaemon;

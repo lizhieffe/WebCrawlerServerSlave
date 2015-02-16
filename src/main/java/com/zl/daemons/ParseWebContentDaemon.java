@@ -1,7 +1,7 @@
 package com.zl.daemons;
 
-import interfaces.IDaemon;
-import interfaces.IThreadPoolDaemon;
+import com.zl.interfaces.IDaemon;
+import com.zl.interfaces.IThreadPoolDaemon;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -10,8 +10,8 @@ import utils.SimpleLogger;
 
 import com.zl.entities.WebContentEntity;
 import com.zl.interfaces.IWebContentMonitor;
-import com.zl.job.manager.JobManager;
-import com.zl.job.manager.WebContentManager;
+import com.zl.job.managers.JobManager;
+import com.zl.job.managers.WebContentManager;
 import com.zl.tasks.CrawlWebContentTask;
 
 @Component
@@ -25,17 +25,9 @@ public class ParseWebContentDaemon implements IDaemon, IWebContentMonitor {
 	
 	private boolean started;
 	IThreadPoolDaemon threadPoolService;
-	
-	private static ParseWebContentDaemon instance;
-	
+		
 	public ParseWebContentDaemon() {
 		this.started = false;
-	}
-	
-	synchronized public static ParseWebContentDaemon getInstance() {
-		if (instance == null)
-			instance = new ParseWebContentDaemon();
-		return instance;
 	}
 	
 	@Override

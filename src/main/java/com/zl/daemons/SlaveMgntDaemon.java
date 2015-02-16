@@ -1,35 +1,25 @@
 package com.zl.daemons;
 
+import com.zl.interfaces.IDaemon;
+import com.zl.interfaces.IThreadPoolDaemon;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import interfaces.IDaemon;
-import interfaces.IThreadPoolDaemon;
 import utils.SimpleLogger;
 import utils.TimeUtil;
-
 import com.zl.interfaces.ISlaveMgntMonitor;
 
 @Component
 public class SlaveMgntDaemon implements IDaemon, ISlaveMgntMonitor {
 
+	@Autowired
+	public SlaveMgntDaemonHelper helper;
+	
 	private boolean started = false;
 	private boolean added = false;
-	private static final int interval = 60; // delay between each add slave request
+	private static final int interval = 5; // delay between each add slave request
 	private int last = 0;
-	
-	private static SlaveMgntDaemon instance;
-	private SlaveMgntDaemonAddSlaveHelper addSlaveHelper;
-	private SlaveMgntDaemonRemoveSlaveHelper removeSlaveHelper;
 
 	public SlaveMgntDaemon() {
-		addSlaveHelper = new SlaveMgntDaemonAddSlaveHelper();
-		removeSlaveHelper = new SlaveMgntDaemonRemoveSlaveHelper();
-	}
-	
-	public static SlaveMgntDaemon getInstance() {
-		if (instance == null)
-			instance = new SlaveMgntDaemon();
-		return instance;
 	}
 	
 	@Override
@@ -48,6 +38,11 @@ public class SlaveMgntDaemon implements IDaemon, ISlaveMgntMonitor {
 	}
 
 	synchronized private void start() {
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e1) {
+			return;
+		}
 		if (isStarted()) {
 			SimpleLogger.logServiceAlreadyStarted(this);
 			return;
@@ -73,7 +68,7 @@ public class SlaveMgntDaemon implements IDaemon, ISlaveMgntMonitor {
 					}
 					last = TimeUtil.getUnixTime();
 					added = true;
-					addSlaveHelper.addSlave();
+					helper.addSlave();
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -87,7 +82,7 @@ public class SlaveMgntDaemon implements IDaemon, ISlaveMgntMonitor {
 	}
 	
 	@Override
-	public void onAddSlaveSuccess() {
+	synchronized public void onAddSlaveSuccess() {
 		
 	}
 

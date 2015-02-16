@@ -8,7 +8,7 @@ import abstracts.AJob;
 import com.zl.interfaces.IReportJobService;
 
 @Component
-public class JobReportDaemonHelper {
+public class ReportJobDaemonHelper {
 	
 	@Autowired
 	public IReportJobService reportJobService;

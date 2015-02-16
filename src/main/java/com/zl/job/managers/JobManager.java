@@ -1,6 +1,6 @@
-package com.zl.job.manager;
+package com.zl.job.managers;
 
-import interfaces.IJobManager;
+import com.zl.interfaces.IJobManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,13 +11,13 @@ import org.springframework.stereotype.Component;
 import abstracts.AJob;
 
 import com.zl.daemons.CrawlWebDaemon;
-import com.zl.daemons.JobReportDaemon;
+import com.zl.daemons.ReportJobDaemon;
 
 @Component
 public class JobManager implements IJobManager {
 
 	@Autowired
-	public JobReportDaemon jobReportDaemon;
+	public ReportJobDaemon jobReportDaemon;
 	
 	@Autowired
 	public CrawlWebDaemon crawlWebDaemon;

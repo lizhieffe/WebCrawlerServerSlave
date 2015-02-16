@@ -1,7 +1,7 @@
 package com.zl.daemons;
 
-import interfaces.IDaemon;
-import interfaces.IThreadPoolDaemon;
+import com.zl.interfaces.IDaemon;
+import com.zl.interfaces.IThreadPoolDaemon;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -11,35 +11,20 @@ import Job.WebCrawlingJob;
 import abstracts.AJob;
 
 import com.zl.interfaces.IJobToReportMonitor;
-import com.zl.job.manager.JobManager;
+import com.zl.job.managers.JobManager;
 
 @Component
-public class JobReportDaemon implements IDaemon, IJobToReportMonitor {
+public class ReportJobDaemon implements IDaemon, IJobToReportMonitor {
 	
 	@Autowired
-	public JobReportDaemonHelper helper;
+	public ReportJobDaemonHelper helper;
 	
 	@Autowired
 	public JobManager jobManager;
 
-	
-	
-	
-	
-	
-	
-	private static JobReportDaemon instance;
-//	private JobReportDaemonHelper helper;
 	private boolean started;
 	
-	public JobReportDaemon() {
-//		this.helper = new JobReportDaemonHelper();
-	}
-	
-	synchronized public static JobReportDaemon getInstance() {
-		if (instance == null)
-			instance = new JobReportDaemon();
-		return instance;
+	public ReportJobDaemon() {
 	}
 	
 	@Override

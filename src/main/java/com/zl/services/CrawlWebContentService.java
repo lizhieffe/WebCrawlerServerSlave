@@ -17,7 +17,7 @@ import abstracts.AService;
 
 import com.zl.entities.WebContentEntity;
 import com.zl.interfaces.ICrawlWebContentService;
-import com.zl.job.manager.WebContentManager;
+import com.zl.job.managers.WebContentManager;
 
 @Service
 @Scope("prototype")

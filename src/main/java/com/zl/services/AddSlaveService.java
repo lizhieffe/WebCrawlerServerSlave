@@ -16,15 +16,17 @@ import utils.ConfigUtil;
 import abstracts.AService;
 
 import com.zl.daemons.SlaveMgntDaemon;
+import com.zl.interfaces.IAddSlaveService;
 
 @Service
 @Scope("prototype")
-public class AddSlaveService extends AService {
+public class AddSlaveService extends AService implements IAddSlaveService {
 	
 	@Autowired
 	public SlaveMgntDaemon slaveMgntDaemon;
 	
 	@Async
+	@Override
 	public void addSlave() {
 		this.start();
 	}
@@ -58,7 +60,7 @@ public class AddSlaveService extends AService {
 	
 	@Override
 	public void onSuccess(ResponseEntity<String> response) {
-		slaveMgntDaemon.onAddSlaveFailure();
+		slaveMgntDaemon.onAddSlaveSuccess();
 	}
 	
 	@Override
