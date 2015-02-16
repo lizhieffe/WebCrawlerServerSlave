@@ -1,4 +1,4 @@
-package com.zl.job.managers;
+package com.zl.managers;
 
 import com.zl.interfaces.IJobManager;
 
@@ -8,7 +8,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import abstracts.AJob;
+import com.zl.abstracts.AJob;
 
 import com.zl.daemons.CrawlWebDaemon;
 import com.zl.daemons.ReportJobDaemon;

@@ -6,12 +6,12 @@ import com.zl.interfaces.IThreadPoolDaemon;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import utils.SimpleLogger;
+import com.zl.utils.SimpleLogger;
 
 import com.zl.entities.WebContentEntity;
 import com.zl.interfaces.IWebContentMonitor;
-import com.zl.job.managers.JobManager;
-import com.zl.job.managers.WebContentManager;
+import com.zl.managers.JobManager;
+import com.zl.managers.WebContentManager;
 import com.zl.tasks.CrawlWebContentTask;
 
 @Component

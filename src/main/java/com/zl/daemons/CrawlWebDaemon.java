@@ -6,12 +6,12 @@ import com.zl.interfaces.IThreadPoolDaemon;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import utils.SimpleLogger;
-import Job.WebCrawlingJob;
-import abstracts.AJob;
+import com.zl.utils.SimpleLogger;
+import com.zl.jobs.WebCrawlingJob;
+import com.zl.abstracts.AJob;
 
 import com.zl.interfaces.IJobToExecuteMonitor;
-import com.zl.job.managers.JobManager;
+import com.zl.managers.JobManager;
 
 @Component
 public class CrawlWebDaemon implements IDaemon, IJobToExecuteMonitor {

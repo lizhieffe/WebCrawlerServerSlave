@@ -6,15 +6,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import resources.RSimpleResponse;
-import resources.RWebCrawlingJob;
-import resources.SimpleResponseFactory;
-import utils.SimpleLogger;
-import Job.JobHelper;
-import Job.WebCrawlingJobFactory;
-import abstracts.AJob;
+import com.zl.resources.RSimpleResponse;
+import com.zl.resources.RWebCrawlingJob;
+import com.zl.resources.SimpleResponseFactory;
+import com.zl.utils.SimpleLogger;
+import com.zl.jobs.JobHelper;
+import com.zl.jobs.WebCrawlingJobFactory;
+import com.zl.abstracts.AJob;
 
-import com.zl.job.managers.JobManager;
+import com.zl.managers.JobManager;
 
 @RestController
 public class CJob {

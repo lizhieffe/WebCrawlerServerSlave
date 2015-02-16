@@ -1,4 +1,4 @@
-package com.zl.job.managers;
+package com.zl.managers;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 

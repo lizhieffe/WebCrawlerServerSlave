@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
-import utils.SimpleLogger;
+import com.zl.utils.SimpleLogger;
 
 import com.zl.daemons.CrawlWebDaemon;
 import com.zl.daemons.ReportJobDaemon;

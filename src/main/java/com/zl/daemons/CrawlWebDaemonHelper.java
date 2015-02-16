@@ -5,7 +5,7 @@ import java.net.URL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import Job.WebCrawlingJob;
+import com.zl.jobs.WebCrawlingJob;
 
 import com.zl.interfaces.ICrawlWebContentService;
 

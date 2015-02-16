@@ -5,12 +5,12 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 
-import Job.WebCrawlingJob;
-import Job.WebCrawlingJobFactory;
-import abstracts.AFutureTask;
-import abstracts.AFutureTaskCallback;
+import com.zl.jobs.WebCrawlingJob;
+import com.zl.jobs.WebCrawlingJobFactory;
+import com.zl.abstracts.AFutureTask;
+import com.zl.abstracts.AFutureTaskCallback;
 
-import com.zl.job.managers.JobManager;
+import com.zl.managers.JobManager;
 
 public class CrawlWebContentTask extends AFutureTask <List<URL>> {
 

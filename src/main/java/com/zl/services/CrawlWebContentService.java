@@ -13,11 +13,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import abstracts.AService;
+import com.zl.abstracts.AService;
 
 import com.zl.entities.WebContentEntity;
 import com.zl.interfaces.ICrawlWebContentService;
-import com.zl.job.managers.WebContentManager;
+import com.zl.managers.WebContentManager;
 
 @Service
 @Scope("prototype")

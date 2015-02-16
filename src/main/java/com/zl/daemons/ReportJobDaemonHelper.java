@@ -3,7 +3,7 @@ package com.zl.daemons;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import abstracts.AJob;
+import com.zl.abstracts.AJob;
 
 import com.zl.interfaces.IReportJobService;
 

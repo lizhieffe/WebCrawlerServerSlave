@@ -11,9 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import utils.AppProperties;
-import utils.ConfigUtil;
-import abstracts.AService;
+import com.zl.utils.AppProperties;
+import com.zl.utils.ConfigUtil;
+import com.zl.abstracts.AService;
 
 import com.zl.daemons.SlaveMgntDaemon;
 import com.zl.interfaces.IRemoveSlaveService;

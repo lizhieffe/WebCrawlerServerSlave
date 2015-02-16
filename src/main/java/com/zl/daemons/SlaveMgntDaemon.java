@@ -4,8 +4,8 @@ import com.zl.interfaces.IDaemon;
 import com.zl.interfaces.IThreadPoolDaemon;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import utils.SimpleLogger;
-import utils.TimeUtil;
+import com.zl.utils.SimpleLogger;
+import com.zl.utils.TimeUtil;
 import com.zl.interfaces.ISlaveMgntMonitor;
 
 @Component
@@ -38,11 +38,6 @@ public class SlaveMgntDaemon implements IDaemon, ISlaveMgntMonitor {
 	}
 
 	synchronized private void start() {
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e1) {
-			return;
-		}
 		if (isStarted()) {
 			SimpleLogger.logServiceAlreadyStarted(this);
 			return;

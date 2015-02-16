@@ -10,10 +10,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import utils.AppProperties;
-import Job.WebCrawlingJob;
-import abstracts.AJob;
-import abstracts.AService;
+import com.zl.utils.AppProperties;
+import com.zl.jobs.WebCrawlingJob;
+import com.zl.abstracts.AJob;
+import com.zl.abstracts.AService;
 
 import com.zl.interfaces.IReportJobService;
 

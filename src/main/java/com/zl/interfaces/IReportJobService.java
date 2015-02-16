@@ -1,6 +1,6 @@
 package com.zl.interfaces;
 
-import abstracts.AJob;
+import com.zl.abstracts.AJob;
 
 public interface IReportJobService {
 	public void reportJob(AJob job);
