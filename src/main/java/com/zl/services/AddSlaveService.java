@@ -60,11 +60,11 @@ public class AddSlaveService extends AService implements IAddSlaveService {
 	
 	@Override
 	public void onSuccess(ResponseEntity<String> response) {
-		slaveMgntDaemon.onAddSlaveSuccess();
+//		slaveMgntDaemon.onAddSlaveSuccess();
 	}
 	
 	@Override
 	public void onFailure(ResponseEntity<String> response) {
-		slaveMgntDaemon.onAddSlaveFailure();
+//		slaveMgntDaemon.onAddSlaveFailure();
 	}
 }

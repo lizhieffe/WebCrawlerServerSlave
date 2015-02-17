@@ -1,12 +1,12 @@
 package com.zl.daemons;
 
-import com.zl.interfaces.IDaemon;
-import com.zl.interfaces.IThreadPoolDaemon;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import com.zl.utils.SimpleLogger;
-import com.zl.utils.TimeUtil;
+
+import com.zl.interfaces.IDaemon;
 import com.zl.interfaces.ISlaveMgntMonitor;
+import com.zl.interfaces.IThreadPoolDaemon;
+import com.zl.utils.SimpleLogger;
 
 @Component
 public class SlaveMgntDaemon implements IDaemon, ISlaveMgntMonitor {
@@ -15,9 +15,9 @@ public class SlaveMgntDaemon implements IDaemon, ISlaveMgntMonitor {
 	public SlaveMgntDaemonHelper helper;
 	
 	private boolean started = false;
-	private boolean added = false;
-	private static final int interval = 5; // delay between each add slave request
-	private int last = 0;
+//	private boolean added = false;
+	private static final int interval = 30 * 1000; // delay between each add slave request
+//	private int last = 0;
 
 	public SlaveMgntDaemon() {
 	}
@@ -52,18 +52,9 @@ public class SlaveMgntDaemon implements IDaemon, ISlaveMgntMonitor {
 			
 			try {
 				while (started) {
-					while (added) {
-						wait();
-					}
-					int currTime = TimeUtil.getUnixTime();
-					int eclapse;
-					if ((eclapse = currTime - last) < interval) {
-						SimpleLogger.info("[/addslave] next request will be sent in " + (interval - eclapse) + " sec");
-						Thread.sleep((interval - eclapse) * 1000);
-					}
-					last = TimeUtil.getUnixTime();
-					added = true;
+//					added = true;
 					helper.addSlave();
+					Thread.sleep(interval);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -83,12 +74,12 @@ public class SlaveMgntDaemon implements IDaemon, ISlaveMgntMonitor {
 
 	@Override
 	synchronized public void onAddSlaveFailure() {
-		added = false;
+//		added = false;
 	}
 
 	@Override
 	synchronized public void onRemoveSlaveSuccess() {
-		added = false;
+//		added = false;
 	}
 
 	@Override

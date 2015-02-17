@@ -49,7 +49,7 @@ public class CrawlWebContentTask extends AFutureTask <List<URL>> {
 			public void onSuccess(List<URL> result) {
 				super.onSuccess(result);
 				for (URL url : result) {
-					if (depth > 1) {
+					if (depth >= 1) {
 						WebCrawlingJob newJob = WebCrawlingJobFactory.create(url.toString(), depth);
 						jobManager.addJobToReport(newJob);
 					}
