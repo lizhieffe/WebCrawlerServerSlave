@@ -1,6 +1,7 @@
 package com.zl.daemons;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import com.zl.interfaces.IAddSlaveService;
@@ -9,17 +10,18 @@ import com.zl.interfaces.IRemoveSlaveService;
 @Component
 public class SlaveMgntDaemonHelper {
 	
-	@Autowired
-	public IAddSlaveService addSlaveService;
+	/**
+	 * getBean() method together with "prototype" scope bean make sure each service is a new bean
+	 */
 	
 	@Autowired
-	public IRemoveSlaveService removeSlaveService;
+	private ApplicationContext appContext;
 	
 	public void addSlave() {
-		addSlaveService.addSlave();
+		appContext.getBean(IAddSlaveService.class).addSlave();
 	}
 	
 	public void remove() {
-		removeSlaveService.removeSlave();
+		appContext.getBean(IRemoveSlaveService.class).removeSlave();
 	}
 }

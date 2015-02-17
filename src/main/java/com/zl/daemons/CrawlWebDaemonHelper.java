@@ -3,24 +3,25 @@ package com.zl.daemons;
 import java.net.URL;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
-import com.zl.jobs.WebCrawlingJob;
-
 import com.zl.interfaces.ICrawlWebContentService;
+import com.zl.jobs.WebCrawlingJob;
 
 @Component
 public class CrawlWebDaemonHelper {
 	
-	@Autowired
-	public ICrawlWebContentService crawlWebContentService;
+	/**
+	 * getBean() method together with "prototype" scope bean make sure each service is a new bean
+	 */
 	
-	public CrawlWebDaemonHelper() {
-	}
+	@Autowired
+	private ApplicationContext appContext;
 	
 	public void crawlWeb(WebCrawlingJob job) {
 		URL url = job.getUrl();
 		int depth = job.getDepth();
-		crawlWebContentService.crawlWebContent(url, depth);
+		appContext.getBean(ICrawlWebContentService.class).crawlWebContent(url, depth);
 	}
 }

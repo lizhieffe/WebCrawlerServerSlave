@@ -1,17 +1,15 @@
 package com.zl.managers;
 
-import com.zl.interfaces.IJobManager;
-
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.zl.abstracts.AJob;
-
 import com.zl.daemons.CrawlWebDaemon;
 import com.zl.daemons.ReportJobDaemon;
+import com.zl.interfaces.IJobManager;
 
 @Component
 public class JobManager implements IJobManager {
@@ -22,77 +20,89 @@ public class JobManager implements IJobManager {
 	@Autowired
 	public CrawlWebDaemon crawlWebDaemon;
 	
-	private List<AJob> jobsToExecute = new ArrayList<AJob>();
-	private List<AJob> jobsInExecuting = new ArrayList<AJob>();
-	private List<AJob> jobsToReport = new ArrayList<AJob>();
-	
-	private static JobManager instance = null;
-	
+	private CopyOnWriteArrayList<AJob> jobsToExecute = new CopyOnWriteArrayList<AJob>();
+	private CopyOnWriteArrayList<AJob> jobsInExecuting = new CopyOnWriteArrayList<AJob>();
+	private CopyOnWriteArrayList<AJob> jobsToReport = new CopyOnWriteArrayList<AJob>();
+		
 	public JobManager() {
 		
 	}
 	
-	synchronized public static JobManager getInstance() {
-		if (instance == null)
-			instance = new JobManager();
-		return instance;
-	}
-	
 	@Override
 	public boolean addJob(AJob job) {
-		synchronized (this) {
 			/**
 			 * TODO: add repeated job check
 			 */
-			jobsToExecute.add(job);
-		}
-		crawlWebDaemon.onJobToExecuteAdded();
-		return true;
-	}
-
-	@Override
-	synchronized public boolean moveJobToWaitingStatus(AJob job) {
-		if (!jobsInExecuting.contains(job))
-			return false;
-		jobsInExecuting.remove(job);
 		jobsToExecute.add(job);
 		crawlWebDaemon.onJobToExecuteAdded();
 		return true;
 	}
 
 	@Override
-	synchronized public boolean moveJobToRunningStatus(AJob job) {
-		if (!jobsToExecute.contains(job))
+	public boolean moveJobToWaitingStatus(AJob job) {
+		try {
+			jobsInExecuting.remove(job);
+			jobsToExecute.add(job);
+			crawlWebDaemon.onJobToExecuteAdded();
+			return true;
+		}
+		catch (Exception ex) {
 			return false;
-		jobsToExecute.remove(job);
-		jobsInExecuting.add(job);
-		return true;
+		}
 	}
 
-	synchronized public int getWaitingJobsCount() {
+	@Override
+	public boolean moveJobToRunningStatus(AJob job) {
+		try {
+			if (!jobsToExecute.contains(job))
+				return false;
+			jobsToExecute.remove(job);
+			jobsInExecuting.add(job);
+			return true;
+		}
+		catch (Exception ex) {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean removeJobFromRunningStatus(AJob job) {
+		return jobsInExecuting.remove(job);
+	}
+	
+	public int getWaitingJobsCount() {
 		return this.jobsToExecute.size();
 	}
 	
-	synchronized public AJob popWaitingJob() {
-		if (this.jobsToExecute.size() == 0)
+	public AJob popWaitingJob() {
+		try {
+			return this.jobsToExecute.remove(0);
+		}
+		catch (IndexOutOfBoundsException ex) {
 			return null;
-		return this.jobsToExecute.remove(0);
+		}
 	}
 	
 	public boolean addJobToReport(AJob job) {
-		synchronized(this) {
-			if (jobsToReport.contains(job))
-				return false;
-			this.jobsToReport.add(job);
-		}
+		jobsToReport.add(job);
+		jobReportDaemon.onJobToReportAdded();
+		return true;
+	}
+	
+	public boolean addAllJobsToReport(List<AJob> jobs) {
+		this.jobsToReport.addAll(jobs);
 		jobReportDaemon.onJobToReportAdded();
 		return true;
 	}
 	
 	synchronized public AJob popJobToReport() {
-		if (this.jobsToReport.size() == 0)
-			return null;
-		else
+		try {
 			return this.jobsToReport.remove(0);
+		}
+		catch (IndexOutOfBoundsException ex) {
+			return null;
+		}
 	}
+
+
 }

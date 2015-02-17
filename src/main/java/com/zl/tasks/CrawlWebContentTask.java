@@ -1,12 +1,13 @@
 package com.zl.tasks;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
 import com.zl.abstracts.AFutureTask;
 import com.zl.abstracts.AFutureTaskCallback;
-import com.zl.jobs.WebCrawlingJob;
+import com.zl.abstracts.AJob;
 import com.zl.jobs.WebCrawlingJobFactory;
 import com.zl.managers.JobManager;
 
@@ -45,11 +46,11 @@ public class CrawlWebContentTask extends AFutureTask <List<URL>> {
 			@Override
 			public void onSuccess(List<URL> result) {
 				super.onSuccess(result);
-				for (URL url : result) {
-					if (depth >= 1) {
-						WebCrawlingJob newJob = WebCrawlingJobFactory.create(url.toString(), depth);
-						jobManager.addJobToReport(newJob);
-					}
+				if (depth >= 1) {
+					List<AJob> jobs = new ArrayList<AJob>();
+					for (URL url : result)
+						jobs.add(WebCrawlingJobFactory.create(url.toString(), depth));
+					jobManager.addAllJobsToReport(jobs);
 				}
 			}
 			

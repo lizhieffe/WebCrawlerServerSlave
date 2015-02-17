@@ -11,22 +11,29 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.zl.utils.AppProperties;
+import com.zl.utils.SimpleLogger;
 import com.zl.jobs.WebCrawlingJob;
 import com.zl.abstracts.AJob;
 import com.zl.abstracts.AService;
-
 import com.zl.interfaces.IReportJobService;
 
 @Service
-@Scope("prototype")
+@Scope(value="prototype")
 public class ReportJobService extends AService implements IReportJobService {
 
+	private static int count = 0;
+	private int i;
 	private AJob job;
+	
+	public ReportJobService() {
+		i = ++count;
+	}
 	
 	@Async
 	@Override
 	public void reportJob(AJob job) {
 		this.job = job;
+		SimpleLogger.info("[" + i +"] Slave reported job to master [" + ((WebCrawlingJob)job).getUrl());
 		this.start();
 	}
 
@@ -59,12 +66,12 @@ public class ReportJobService extends AService implements IReportJobService {
 
 	@Override
 	public void onSuccess(ResponseEntity<String> response) {
-	
+		SimpleLogger.info("[" + i +"] Success! Slave reported job to master [" + ((WebCrawlingJob)job).getUrl());
 	}
 
 	@Override
 	public void onFailure(ResponseEntity<String> response) {
-
+		SimpleLogger.info("[" + i +"] Success! Slave reported job to master [" + ((WebCrawlingJob)job).getUrl());
 	}
 	
 }

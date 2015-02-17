@@ -59,7 +59,6 @@ public class CrawlWebDaemon implements IDaemon, IJobToExecuteMonitor {
 				while ((waitingJob = jobManager.popWaitingJob()) == null)
 					wait();
 				helper.crawlWeb((WebCrawlingJob)waitingJob);
-//				JobExecutor.getInstance().execute((WebCrawlingJob)waitingJob);
 			}
 			SimpleLogger.logServiceStopSucceed(serviceName);
 		} catch (InterruptedException e) {

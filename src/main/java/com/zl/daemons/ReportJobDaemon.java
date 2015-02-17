@@ -52,23 +52,28 @@ public class ReportJobDaemon implements IDaemon, IJobToReportMonitor {
 			started = true;
 		
 		final String serviceName = this.getClass().getName();
+		int i = 0;
 		try {
 			SimpleLogger.logServiceStartSucceed(serviceName);
 			AJob jobToReport = null;
 			while (started) {
+				++i;
+				if (i > 0 && i % 41 == 0)
+					SimpleLogger.info(i + " reached");
 				while ((jobToReport = jobManager.popJobToReport()) == null)
 					wait();
 				helper.reportJob((WebCrawlingJob)jobToReport);
+				SimpleLogger.info("[" + i +"] Slave is reporting job to master  [" + ((WebCrawlingJob)jobToReport).getUrl());
 			}
 			SimpleLogger.logServiceStopSucceed(serviceName);
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			SimpleLogger.error(e.toString());
 			SimpleLogger.logServiceStartFail(serviceName);
 		}
 	}
 	
 	@Override
-	public void stop() {
+	synchronized public void stop() {
 		if (!this.started)
 			return;
 		else
