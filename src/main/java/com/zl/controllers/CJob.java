@@ -25,24 +25,28 @@ public class CJob {
 	@RequestMapping(value = "/addslavejob", method = RequestMethod.POST, consumes="application/json",produces="application/json")
 	public RSimpleResponse addSlaveJob(@RequestBody RWebCrawlingJob reqJob) {
 		
-		SimpleLogger.info(this.getClass(), "[Request] URI=/addslavejob, URL=" + reqJob.getUrl() + ", Depth=" + reqJob.getDepth());
+		SimpleLogger.info(this.getClass(), "[Server receives][/addslavejob][" + reqJob.toString() + "]");
 
 		String url = reqJob.getUrl();
 		int depth = reqJob.getDepth();
 		String type = reqJob.getType();
 		
+		RSimpleResponse response = null;
 		if (type == null || url == null || !JobHelper.isValidTypeNameForWebCrawlingJob(type) 
 				|| !JobHelper.isValidUrl(url) || !JobHelper.isValidDepth(String.valueOf(depth))) {
-			return SimpleResponseFactory.generateFailSerciveResponseTemplate(1, "", "Invalid parameter");
+			response = SimpleResponseFactory.generateFailSerciveResponseTemplate(1, "", "Invalid parameter");
+		}
+		else {
+			AJob job = WebCrawlingJobFactory.create(url, depth);
+			boolean addJobSucceed = jobManager.addJob(job);
+			if (!addJobSucceed) {
+				response = SimpleResponseFactory.generateFailSerciveResponseTemplate(1, "", "Cannot add job");
+			}
+			else
+				response = SimpleResponseFactory.generateSuccessfulSerciveResponseTemplate();
 		}
 		
-		AJob job = WebCrawlingJobFactory.create(url, depth);
-		boolean addJobSucceed = jobManager.addJob(job);
-		if (!addJobSucceed) {
-			return SimpleResponseFactory.generateFailSerciveResponseTemplate(1, "", "Cannot add job");
-		}
-		
-		return SimpleResponseFactory.generateSuccessfulSerciveResponseTemplate();
-
+		SimpleLogger.info(this.getClass(), "[Server responses][/addslavejob][" + response.toString() + "]");
+		return response;
 	}
 }
