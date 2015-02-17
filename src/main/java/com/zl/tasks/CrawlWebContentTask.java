@@ -3,13 +3,11 @@ package com.zl.tasks;
 import java.net.URL;
 import java.util.List;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
 
-import com.zl.jobs.WebCrawlingJob;
-import com.zl.jobs.WebCrawlingJobFactory;
 import com.zl.abstracts.AFutureTask;
 import com.zl.abstracts.AFutureTaskCallback;
-
+import com.zl.jobs.WebCrawlingJob;
+import com.zl.jobs.WebCrawlingJobFactory;
 import com.zl.managers.JobManager;
 
 public class CrawlWebContentTask extends AFutureTask <List<URL>> {
@@ -18,8 +16,7 @@ public class CrawlWebContentTask extends AFutureTask <List<URL>> {
 	private int depth;
 	private JobManager jobManager;
 	
-	public CrawlWebContentTask(ExecutorService es) {
-		super(es);
+	public CrawlWebContentTask() {
 	}
 	
 	/**

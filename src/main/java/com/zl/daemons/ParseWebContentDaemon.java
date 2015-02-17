@@ -57,8 +57,7 @@ public class ParseWebContentDaemon implements IDaemon, IWebContentMonitor {
 				WebContentEntity content = null;
 				while ((content = webContentManager.popContent()) == null)
 					wait();
-				new CrawlWebContentTask(threadPoolService.getExecutorService())
-						.parseWebContent(content.getStr(), content.getDepth(), this.jobManager);
+				new CrawlWebContentTask().parseWebContent(content.getStr(), content.getDepth(), this.jobManager);
 			}
 			SimpleLogger.logServiceStopSucceed(serviceName);
 		}
