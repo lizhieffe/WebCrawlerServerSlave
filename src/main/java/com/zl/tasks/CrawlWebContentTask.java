@@ -43,7 +43,7 @@ public class CrawlWebContentTask extends AFutureTask <List<URL>> {
 	}
 
 	private AFutureTaskCallback <List<URL>> getCallback() {
-		return new AFutureTaskCallback<List<URL>>() {
+		return new AFutureTaskCallback<List<URL>>(id) {
 			@Override
 			public void onSuccess(List<URL> result) {
 				super.onSuccess(result);
