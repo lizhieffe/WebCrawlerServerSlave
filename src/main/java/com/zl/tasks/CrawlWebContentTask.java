@@ -36,6 +36,7 @@ public class CrawlWebContentTask extends AFutureTask <List<URL>> {
 		this.callable = new Callable<List<URL>>() {
 			@Override
 			public List<URL> call() throws Exception {
+				Thread.currentThread().setPriority(10);
 				return CrawlWebContentTaskHelper.getContainedURL(content);
 			}
 		};

@@ -7,15 +7,14 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import com.zl.utils.AppProperties;
-import com.zl.utils.SimpleLogger;
-import com.zl.jobs.WebCrawlingJob;
 import com.zl.abstracts.AJob;
 import com.zl.abstracts.AService;
 import com.zl.interfaces.IReportJobService;
+import com.zl.jobs.WebCrawlingJob;
+import com.zl.utils.AppProperties;
+import com.zl.utils.SimpleLogger;
 
 @Service
 @Scope(value="prototype")
@@ -29,7 +28,13 @@ public class ReportJobService extends AService implements IReportJobService {
 		i = ++count;
 	}
 	
-	@Async
+	/**
+	 * disable async service since 
+	 * 1. the communication between servers should be fast
+	 * 2. now each request contains only a single job. 
+	 * If async, there can be some overhead for the communication (this can be improved by put more job info in a single request) 
+	 */
+//	@Async
 	@Override
 	public void reportJob(AJob job) {
 		this.job = job;
